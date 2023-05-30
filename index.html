@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="output"> </div> 
+    <div id="output2"> </div> 
+    <script>
+        
+        fetch('https://geo.ipify.org/api/v2/country,city?apiKey=at_gbw5eK6VMZ9C4YYb1eJMV81P5tSG0&ipAddress=8.8.8.8')
+        .then(response => response.json())
+        .then(data => {
+            
+            
+            const ip = data['ip'];
+            const region = data['location']['region'];
+            const city = data['city'];
+            const szerokosc = data['lat'];
+            const wysokosc = data['lng'];
+
+            output.innerHTML = ip; 
+            output2.innerHTML = region;
+        })
+
+
+    </script>
+</body>
+</html>
