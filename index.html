@@ -1,30 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <div id="output"> </div> 
-    <div id="output2"> </div> 
-    <script>
+    <div id="background"> 
+    <div id="header"> 
         
-        fetch('https://geo.ipify.org/api/v2/country,city?apiKey=at_gbw5eK6VMZ9C4YYb1eJMV81P5tSG0&ipAddress=8.8.8.8')
+                <div id="title"> <b> IP Address Tracker </b> </div>
+
+                <div id="searchbar"> 
+                    <form>
+                        <input type="text" id="search">
+                    </form>
+                    <button id="button"> <img src="icon-arrow.svg" alt="button-icon"> </button>
+                </div>
+
+
+
+    </div>   
+    <div id="map"> </div> 
+    </div> 
+    <div id="info">
+        <div id="ipadress"> IP ADDRESS <p class="ipshow">  </p> </div>
+        <div id="place"> LOCATION  <p class="locationshow">  </p></div>
+        <div id="timezone"> TIMEZONE <p class="timezone_show">  </p> </div>
+        <div id="isp"> ISP <p class="ispshow">  </p> </div>
+    </div> 
+    <script>
+       const button = document.getElementById('button');
+       const search = document.getElementById('search');
+      
+      
+            
+        
+       
+       
+       /// working ip grab
+        
+        fetch('https://geo.ipify.org/api/v2/country,city?apiKey=at_CzMwCFM56uR709FotIYlOhS0OVIW1&ipAddress')
         .then(response => response.json())
         .then(data => {
             
             
             const ip = data['ip'];
             const region = data['location']['region'];
-            const city = data['city'];
-            const szerokosc = data['lat'];
-            const wysokosc = data['lng'];
+            const country = data['location']['country'];
+            const city = data['location']['city'];
+            const szerokosc = data['location']['lat'];
+            const wysokosc = data['location']['lng']; 
+            const  isp = data['isp'];
+            const timezone = data['location']['timezone']
+             ///show data
 
-            output.innerHTML = ip; 
-            output2.innerHTML = region;
-        })
+             const ipshow = document.querySelector('.ipshow');
+             const locationshow = document.querySelector('.locationshow');
+             const showtimezone = document.querySelector('.timezone_show');
+             const ispshow = document.querySelector('.ispshow');
+            
+             ipshow.innerHTML = ip;
+             locationshow.innerHTML = city + ", " + country 
+             showtimezone.innerHTML = timezone;
+             ispshow.innerHTML = isp;
+                        
+            /// map api section 
+
+        var map = L.map('map').setView([szerokosc, wysokosc], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+   var marker = L.marker([szerokosc, wysokosc]).addTo(map);
+   button.addEventListener('click',()=>{map.remove()})
+        })  
+
+
+        
+        button.addEventListener('click',()=>{
+        const ipsearch = search.value;
+            console.log(ipsearch);
+                        
+            
+        
+        
+         
+                fetch('https://geo.ipify.org/api/v2/country,city?apiKey=at_CzMwCFM56uR709FotIYlOhS0OVIW1&ipAddress='+ipsearch)
+        .then(response => response.json())
+        .then(data => {
+            
+            
+            const ip = data['ip'];
+            const region = data['location']['region'];
+            const country = data['location']['country'];
+            const city = data['location']['city'];
+            const szerokosc = data['location']['lat'];
+            const wysokosc = data['location']['lng']; 
+            const  isp = data['isp'];
+            const timezone = data['location']['timezone']
+             ///show data
+
+             const ipshow = document.querySelector('.ipshow');
+             const locationshow = document.querySelector('.locationshow');
+             const showtimezone = document.querySelector('.timezone_show');
+             const ispshow = document.querySelector('.ispshow');
+            
+             ipshow.innerHTML = ip;
+             locationshow.innerHTML = city + ", " + country 
+             showtimezone.innerHTML = timezone;
+             ispshow.innerHTML = isp;
+            
+             
+             var map = L.map('map').setView([szerokosc, wysokosc], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+   var marker = L.marker([szerokosc, wysokosc]).addTo(map);
+   button.addEventListener('click',()=>{map.remove()})
+     
+    })
+    }) 
+
+
+
+
 
 
     </script>
