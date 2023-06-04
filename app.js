@@ -1,9 +1,7 @@
+
+
 const button = document.getElementById('button');
 const search = document.getElementById('search');
-
-
-     
- 
 
 
 /// working ip grab
@@ -21,7 +19,8 @@ const search = document.getElementById('search');
      const wysokosc = data['location']['lng']; 
      const  isp = data['isp'];
      const timezone = data['location']['timezone']
-      ///show data
+      
+     ///show data
 
       const ipshow = document.querySelector('.ipshow');
       const locationshow = document.querySelector('.locationshow');
@@ -30,7 +29,7 @@ const search = document.getElementById('search');
      
       ipshow.innerHTML = ip;
       locationshow.innerHTML = city + ", " + country 
-      showtimezone.innerHTML = timezone;
+      showtimezone.innerHTML = "UTC - "+timezone;
       ispshow.innerHTML = isp;
                  
      /// map api section 
@@ -76,7 +75,7 @@ button.addEventListener('click',()=>{map.remove()})
      
       ipshow.innerHTML = ip;
       locationshow.innerHTML = city + ", " + country 
-      showtimezone.innerHTML = timezone;
+      showtimezone.innerHTML = "UTC - "+timezone;
       ispshow.innerHTML = isp;
      
       
